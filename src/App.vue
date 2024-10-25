@@ -1,47 +1,67 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div id="app">
+    <nav>
+      <router-link to="/">ГЛАВНАЯ</router-link>
+      <router-link to="/cart">
+        КОРЗИНА <span v-if="cartCount > 0">({{ cartCount }})</span>
+      </router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import { useCart } from '@/store/cart.js';
+
+export default {
+  name: 'App',
+  setup() {
+    const { cartCount } = useCart();
+    return {
+      cartCount
+    };
+  }
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  color: #2c3e50;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px 0;
+  background: #f5b5b5;
+  border-radius: 12px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+nav a:hover {
+  background-color: #f19292;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+nav a span {
+  color: #ff6666;
+}
+
+.router-view-container {
+  margin-top: 70px; 
 }
 </style>
